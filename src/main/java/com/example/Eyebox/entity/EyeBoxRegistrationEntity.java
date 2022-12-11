@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@Table(name = "signup")
+    @Table(name = "signup")
 public class EyeBoxRegistrationEntity {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO, generator="native")

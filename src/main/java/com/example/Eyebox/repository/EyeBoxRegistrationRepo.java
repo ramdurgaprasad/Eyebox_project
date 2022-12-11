@@ -12,6 +12,4 @@ public interface EyeBoxRegistrationRepo extends CrudRepository<EyeBoxRegistratio
     EyeBoxRegistrationEntity findByMobile(@Param("email") Long mobileNumber);
     @Query(value = "SELECT u FROM User u WHERE u.username = :username")
     EyeBoxRegistrationEntity findByUsername(@Param("username")String username);
-    // @Query(value = "SELECT u FROM User u WHERE u.resetPasswordToken = :reset_password_token")
-    public  EyeBoxRegistrationEntity findByResetPasswordToken(String token);
 }

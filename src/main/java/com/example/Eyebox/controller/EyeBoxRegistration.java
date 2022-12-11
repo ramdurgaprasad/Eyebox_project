@@ -14,7 +14,6 @@ import com.example.Eyebox.service.EyeBoxRegistrationService;
 @RequestMapping(value = "/users")
 public class EyeBoxRegistration {
 
-
     @Autowired
     private EyeBoxRegistrationService userService;
         // register a new user's account: no all the user information are required
