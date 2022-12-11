@@ -13,8 +13,6 @@ import java.util.Base64;
 
 @Service
 public class EyeBoxProfileService {
-
-
     @Autowired
     private EyeBoxProfileRepo repo;
 
