@@ -17,42 +17,42 @@ import javax.transaction.Transactional;
 public class EyeBoxRegistrationService {
         @Autowired
         private EyeBoxRegistrationRepo userRepository;
-    @Autowired
+/*    @Autowired
     private TrippleDes trippleDes;
         public EyeBoxRegistrationEntity getUserByUsername(String username) {
             if (username == null) {
                 throw new InvalidUsernameException("username cannot be null");
             }
             return userRepository.findByUsername(username);
-        }
-    public EyeBoxRegistrationEntity getUserByMobile(Long mobileNumber) {
+        }*/
+
+
+
+   /* public EyeBoxRegistrationEntity getUserByMobile(Long mobileNumber) {
         if (mobileNumber == null) {
             throw new InvalidMobileException("email cannot be null");
         }
         return userRepository.findByMobile(mobileNumber);
-    }
+    }*/
         @Transactional
         public EyeBoxRegistrationEntity registerUserAccount(EyeBoxRegistrationModel registerUserAccountDTO) {
             if (registerUserAccountDTO == null) {
                 throw new InvalidUserDataException("User account data cannot be null");
             }
-            checkIfUsernameNotUsed(registerUserAccountDTO.getUsername());
+
+           // checkIfUsernameNotUsed(registerUserAccountDTO.getUsername());
             EyeBoxRegistrationEntity user = new EyeBoxRegistrationEntity();
             user.setUsername(registerUserAccountDTO.getUsername());
             user.setPassword(registerUserAccountDTO.getPassword());
             user.setMobileNumber(registerUserAccountDTO.getMobileNumber());
             user.setLocation(registerUserAccountDTO.getLocation());
             user.setGender(registerUserAccountDTO.getGender());
-            EyeBoxRegistrationEntity userCreated = userRepository.save(user);
 
-            userCreated = userRepository.save(userCreated);
-
-            log.info(String.format("User %s has been created.", userCreated.getId()));
-            return userCreated;
+            return  userRepository.save(user);
         }
 
         // check if the username has not been registered
-        public void checkIfUsernameNotUsed(String username) {
+      /*  public void checkIfUsernameNotUsed(String username) {
             EyeBoxRegistrationEntity userByUsername = getUserByUsername(username);
             if (userByUsername != null) {
                 String msg = String.format("The username %s it's already in use from another user  = %s",
@@ -60,8 +60,8 @@ public class EyeBoxRegistrationService {
                 log.error(msg);
                 throw new InvalidUserDataException(msg);
             }
-        }
-        public void checkIfMobileNotUsed(Long mobile) {
+        }*/
+     /*   public void checkIfMobileNotUsed(Long mobile) {
             EyeBoxRegistrationEntity userByMobile = getUserByMobile(mobile);
             if (userByMobile != null) {
                 String msg = String.format("The email %s it's already in use from another user with ID = %s",
@@ -70,8 +70,9 @@ public class EyeBoxRegistrationService {
                 throw new InvalidUserDataException(String.format("This email %s it's already in use.",
                         userByMobile.getMobileNumber()));
             }
-        }
-        @Transactional
+        }*/
+
+
         public EyeBoxRegistrationEntity login(String username, String password) {
 
             if(username.equals(null) || password.equals((null)))
@@ -79,23 +80,22 @@ public class EyeBoxRegistrationService {
                 throw new InvalidLoginException("Username or Password cannot be null or empty");
             }
 
-            EyeBoxRegistrationEntity user = getUserByUsername(username);
+            EyeBoxRegistrationEntity user = userRepository.findByUsername(username);
             if (user == null){
                 throw new InvalidLoginException("No user found with these details");
             }
 
-            log.info(String.format("Login request from %s", username));
-            String decrypt = trippleDes.decrypt(user.getPassword());
-            System.out.println(decrypt);
-            if(decrypt.equals(password) && username.equals(user.getUsername()))
+
+            if(user.getPassword().equals(password) && username.equals(user.getUsername()))
             {
                 userRepository.save(user);
-                log.info(String.format("Valid login for %s", username));
             }
 
             else {
                 throw new InvalidLoginException("Invalid username or password");
             }
+
+
             return user;
 
     }

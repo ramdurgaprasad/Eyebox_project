@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.Eyebox.service.EyeBoxRegistrationService;
 
 @RestController
-@RequestMapping(value = "/users")
 public class EyeBoxRegistration {
 
     @Autowired
@@ -19,7 +18,7 @@ public class EyeBoxRegistration {
         // register a new user's account: no all the user information are required
         @PostMapping("/register")
         public ResponseEntity<EyeBoxRegistrationModel> registerNewUserAccount(@RequestBody EyeBoxRegistrationModel registerUserAccountDTO) {
-            return new ResponseEntity(new EyeBoxRegistrationModel(userService.registerUserAccount(registerUserAccountDTO)), null, HttpStatus.CREATED);
+            return new ResponseEntity(userService.registerUserAccount(registerUserAccountDTO), HttpStatus.CREATED);
         }
 
     }

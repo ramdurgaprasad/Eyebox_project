@@ -7,6 +7,7 @@ import com.example.Eyebox.model.LoginRequestDTO;
 import com.example.Eyebox.service.EyeBoxRegistrationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,9 +23,9 @@ public class EyeBoxLogin {
         @Autowired
         private EyeBoxRegistrationService userService;
 
-        @PostMapping("/login")
+       @PostMapping("/login")
         public ResponseEntity<EyeBoxRegistrationModel> login(@RequestBody LoginRequestDTO loginRequestDTO) {
             EyeBoxRegistrationEntity user = userService.login(loginRequestDTO.getUsername(), loginRequestDTO.getPassword());
-            return ResponseEntity.ok(new EyeBoxRegistrationModel(user));
+            return new ResponseEntity(user, HttpStatus.OK);
         }
     }
