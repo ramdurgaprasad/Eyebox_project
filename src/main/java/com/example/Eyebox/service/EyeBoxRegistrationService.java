@@ -1,7 +1,9 @@
 package com.example.Eyebox.service;
 import com.example.Eyebox.entity.EyeBoxRegistrationEntity;
 import com.example.Eyebox.exception.*;
+import com.example.Eyebox.model.EyeBoxForgotPasswordModel;
 import com.example.Eyebox.model.EyeBoxRegistrationModel;
+import com.example.Eyebox.model.ResetPassword;
 import com.example.Eyebox.repository.EyeBoxRegistrationRepo;
 //import com.example.Eyebox.service.validation.MobileValidation;
 //import com.example.Eyebox.service.validation.PasswordValidator;
@@ -95,8 +97,44 @@ public class EyeBoxRegistrationService {
                 throw new InvalidLoginException("Invalid username or password");
             }
 
-
             return user;
-
     }
+
+    public String forgot(EyeBoxForgotPasswordModel passwordModel, Long id) {
+
+        String res="successful";
+
+        if(id==null || passwordModel==null ) {
+            res="unsuccessful";
+        }
+
+        EyeBoxRegistrationEntity user = userRepository.findById(id).get();
+
+        if(user.getPassword().equals(passwordModel.getOldPassword())  ) {
+            user.setPassword(passwordModel.getNewPassword());
+            userRepository.save(user);
+        }else {
+            res="unsuccessful";
+        }
+
+       return res;
+    }
+
+    public String resetPassword(ResetPassword password, Long id) {
+
+        String res="successful";
+            if(password.getNewPassword().isEmpty() && id!=null  ) {
+
+                res="unsuccessful";
+
+            }else {
+                EyeBoxRegistrationEntity user = userRepository.findById(id).get();
+
+                user.setPassword(password.getNewPassword());
+
+                userRepository.save(user);
+            }
+            return res;
+    }
+
 }
